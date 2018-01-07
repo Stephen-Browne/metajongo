@@ -127,6 +127,7 @@ public class AddPropertyServlet extends HttpServlet {
         propertyToInsert.setDescription(description);
         propertyToInsert.setLotsize(lotSize);
         propertyToInsert.setPrice(price);
+        propertyToInsert.setSquarefeet(squareFeet);
         propertyToInsert.setListingNum(listNumber);
         
         

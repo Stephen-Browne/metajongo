@@ -25,7 +25,7 @@
               <tbody>
             <c:forEach items="${requestScope.PropertyList}" var="property">
                 <tr> 
-                    <td><a href=""> <img src="./imageResources/${property.getPhoto()}" class="img-responsive" alt="Product Image" /> </a></td> 
+                    <td><a href=""> <img src="./imageResources/${property.getPhoto()}" class="img-responsive" style="width:350px;height:200px;" alt="Product Image" /> </a></td> 
                     <td>${property.getShortDescription()}</td>
                     <td>Located in ${property.getCity()} on ${property.getStreet()}</td>
                     <td><form method="post" action="ViewPropertyServlet">

@@ -20,7 +20,7 @@
 				<div class="col-md-12">
 					
                                      <c:forEach items="${property.getImagesCollection()}" var="image">
-                                        <img class="mySlides" src="./imageResources/${image.getImageName()}">
+                                        <img class="mySlides" src="./imageResources/${image.getImageName()}" style="width:500px;height:500px;">
                                      </c:forEach>
                                         <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
                                         <button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
@@ -144,7 +144,8 @@ function carousel() {
 
 
 <style type="text/css">
-    
+
+
     
     body {
         padding-top: 20px;
