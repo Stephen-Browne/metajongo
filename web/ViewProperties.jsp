@@ -52,12 +52,6 @@ $(function () {
 
 
 <style>
-    
-    /* font Awesome http://fontawesome.io*/
-@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
-/* Animation.css*/
-@import url(https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css);
-
 .col-item {
   border: 1px solid #E1E1E1;
   background: #FFF;

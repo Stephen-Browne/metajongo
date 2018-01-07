@@ -19,7 +19,7 @@
 			<div class="container">	
 				<div class="col-md-12">
 					
-                                     <c:forEach items="${requestScope.property.getImagesCollection()}" var="image">
+                                     <c:forEach items="${property.getImagesCollection()}" var="image">
                                         <img class="mySlides" src="./imageResources/${image.getImageName()}">
                                      </c:forEach>
                                         <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
@@ -61,10 +61,16 @@
 							Add to cart 
 						</button>
 					</div>
+                                        
+                                        <form method="post" action="AddImageToPropertyServlet">
 					<div class="btn-group wishlist">
-						<button type="button" class="btn btn-danger">
-							Add to wishlist 
-						</button>
+                                            <input type="hidden" name="propertyId" value="${property.getId()}">
+                                            <input type="hidden" name="fromViewProperty" value="1">
+                                            <button type="submit" class="btn btn-danger">
+							Add An Image 
+                                            </button>
+                                        </form>
+                                            
 					</div>
                                         </c:if>
                                         <!-- End Hiding -->

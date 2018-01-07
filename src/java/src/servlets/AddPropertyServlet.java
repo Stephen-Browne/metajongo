@@ -15,6 +15,8 @@ import java.sql.Types;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -61,8 +63,15 @@ public class AddPropertyServlet extends HttpServlet {
        
         //Get Values from form...
         // first we'll get the values which don't require going to the db
-        try{
+        
+      
         String cityCounty = request.getParameter("county");
+        
+        if(cityCounty == null){  // If this is null we've come from the insert image form to pass off to the handleImageForm method
+            handleImageForm(request, response);
+        }
+        
+        
         String street = request.getParameter("street");
         int numberOfBedrooms = Integer.parseInt(request.getParameter("numberofbedrooms"));
         double numberOfBathrooms = Double.parseDouble(request.getParameter("numberofbathrooms"));
@@ -70,14 +79,11 @@ public class AddPropertyServlet extends HttpServlet {
         String lotSize = request.getParameter("lotsize");
         String berRating = request.getParameter("ber");
         String description = request.getParameter("description");
-        double price = Double.parseDouble("price");
-        Short garageSize = Short.parseShort("garagesize");
+        double price = Double.parseDouble(request.getParameter("price"));
+        Short garageSize = Short.parseShort(request.getParameter("garagesize"));
         Date currentDate = new Date();
         int listNumber = ThreadLocalRandom.current().nextInt(10000,1000000); // Generate random listing number
-        }catch(Exception ex){
-            System.out.println(ex.toString());
-        }
-        
+       
         HttpSession session = request.getSession();
         Agents thisAgent = (Agents)session.getAttribute("currentAgent");
         
@@ -101,36 +107,64 @@ public class AddPropertyServlet extends HttpServlet {
         int styleId = Integer.parseInt(request.getParameter("styletype"));
         Styles styleForThisProperty = StylesDatabaseAccess.getStyleWithID(styleId);
         
-        // Get Name of Property Photo
-        Part filePart = request.getPart("propertyimage"); 
-
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
-        
         
         // Try and insert the following property object, if it's successful save the image to the folder
         
         Properties propertyToInsert = new Properties();
+       
+        propertyToInsert.setAgentsagentId(thisAgent);
+        propertyToInsert.setVendorsVendorid(theVendor);
+        propertyToInsert.setStreet(street);
+        propertyToInsert.setBathrooms(numberOfBathrooms);
+        propertyToInsert.setBedrooms(numberOfBedrooms);
+        propertyToInsert.setBerRating(berRating);
+        propertyToInsert.setCity(cityCounty);
+        propertyToInsert.setDateAdded(currentDate);
+        propertyToInsert.setGaragetypesgarageId(garageTypeForThisProperty);
+        propertyToInsert.setPropertytypestypeId(propertyTypeForThisProperty);
+        propertyToInsert.setStylesstyleId(styleForThisProperty);
+        propertyToInsert.setGaragesize(garageSize);
+        propertyToInsert.setDescription(description);
+        propertyToInsert.setLotsize(lotSize);
+        propertyToInsert.setPrice(price);
+        propertyToInsert.setListingNum(listNumber);
         
-//        propertyToInsert.setAgentsagentId(thisAgent);
-//        propertyToInsert.setBathrooms(numberOfBathrooms);
-//        propertyToInsert.setBedrooms(numberOfBedrooms);
-//        propertyToInsert.setBerRating(berRating);
-//        propertyToInsert.setCity(cityCounty);
-//        propertyToInsert.setDateAdded(currentDate);
-//        propertyToInsert.setGaragetypesgarageId(garageTypeForThisProperty);
-//        propertyToInsert.setPropertytypestypeId(propertyTypeForThisProperty);
-//        propertyToInsert.setStylesstyleId(styleForThisProperty);
-//        propertyToInsert.setGaragesize(garageSize);
-//        propertyToInsert.setDescription(description);
-//        propertyToInsert.setLotsize(lotSize);
-//        propertyToInsert.setPhoto(fileName);
-//        propertyToInsert.setPrice(price);
-//        propertyToInsert.setListingNum(listNumber);
         
+        session.setAttribute("propertyToInsert", propertyToInsert); // Add the property to session we'll access once the image has being uploaded
+        
+    
+        // Send to Form to get Image for property
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("AddImageForInsertProperty.jsp");
+        
+        dispatcher.forward(request, response);
+        
+               
+    }
+    
+    public void handleImageForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        
+        String fileName = null;
+        
+        // Get Name of Property Photo
+        Part filePart = request.getPart("propertyimage");
+            
+        fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+       
+        
+        HttpSession session = request.getSession();
+        
+        Properties propertyToInsert = (Properties)session.getAttribute("propertyToInsert");
+        
+        if(fileName != null){
+            
+            propertyToInsert.setPhoto(fileName);
+        
+        }
         
         
         boolean wasInserted = PropertiesDatabaseAccess.insertProperty(propertyToInsert);
+        
         
         if(wasInserted){
             
@@ -161,23 +195,7 @@ public class AddPropertyServlet extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
             dispatcher.forward(request, response);
         }
-        
-        
-        
-        
-        
-        
-        
 
-        
-
-        
-        
-        
-        
-        
-        
-        
         
         
         

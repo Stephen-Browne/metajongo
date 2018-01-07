@@ -18,7 +18,7 @@
 
     <div class="container">
 
-<form class="form-signin" method="post" action="AddPropertyServlet" enctype="multipart/form-data">
+<form class="form-signin" method="post" action="AddPropertyServlet">
 <h2 class="form-signin-heading">Add a Property</h2>
         
     <select required class="form-control" id="County" name="county">
@@ -61,6 +61,7 @@
     <input type="text" class="form-control" placeholder="Street" id="street" name="street"><br>
     <input type="number" class="form-control" placeholder="Number Of Bedrooms" id="numberofbedrooms" name="numberofbedrooms"><br>
     <input type="number" class="form-control" placeholder="Number Of Bathrooms" id="numberofbathrooms" name="numberofbathrooms"><br>
+    <input type="number" class="form-control" placeholder="Price" id="price" name="price"><br>
     <input type="number" class="form-control" placeholder="Squarefeet" id="squarefeet" name="squarefeet"><br>
     <input type='text' class="form-control" placeholder='Lot Size' id='lotsize' name='lotsize'><br>
     

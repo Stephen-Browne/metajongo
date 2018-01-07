@@ -25,7 +25,7 @@
                     
         <p><a href="<c:url value = "ViewPropertiesServlet"/>">View Properties</a></p>
         
-         <p><a href="<c:url value = "PrepareForAddPropertyServlet"/>">Add a Property</a></p>
+        <p><a href="<c:url value = "PrepareForAddPropertyServlet"/>">Add a Property</a></p>
         
         
 
