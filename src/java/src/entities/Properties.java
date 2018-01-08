@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "properties")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p"),
+    @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p WHERE p.active = 1"),
     @NamedQuery(name = "Properties.findById", query = "SELECT p FROM Properties p WHERE p.id = :id"),
     @NamedQuery(name = "Properties.findByStreet", query = "SELECT p FROM Properties p WHERE p.street = :street"),
     @NamedQuery(name = "Properties.findByCity", query = "SELECT p FROM Properties p WHERE p.city = :city"),
@@ -52,6 +52,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Properties.findByDateAdded", query = "SELECT p FROM Properties p WHERE p.dateAdded = :dateAdded"),
     @NamedQuery(name = "Properties.findByPrice", query = "SELECT p FROM Properties p WHERE p.price = :price")})
 public class Properties implements Serializable {
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -328,6 +333,14 @@ public class Properties implements Serializable {
     @Override
     public String toString() {
         return "src.entities.Properties[ id=" + id + " ]";
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
 }

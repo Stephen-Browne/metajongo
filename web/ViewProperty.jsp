@@ -12,6 +12,12 @@
 
 <!DOCTYPE html>
 <html>
+    
+    <head>
+          
+        
+        
+    </head>
 
 <div class="container-fluid">
     <div class="content-wrapper">	
@@ -56,20 +62,37 @@
                                         
                                         <!-- Hide the edit and delete buttons if the agent associated with this property isn't the one viewing it -->
                                         <c:if test="${currentAgent == requestScope.property.getAgentsagentId()}">
-					<div class="btn-group cart">
-						<button type="button" class="btn btn-success">
-							Add to cart 
-						</button>
-					</div>
+                                            
+                                      
+                                            <div class="btn-group cart">
+                                                <a href="PrepareForEditPropertyServlet?p=${property.getId()}">
+                                                    <button type="button" class="btn btn-success">
+                                                            Edit Property 
+                                                    </button></a>
+                                            </div><br>
+                                      
+                                            
                                         
                                         <form method="post" action="AddImageToPropertyServlet">
 					<div class="btn-group wishlist">
                                             <input type="hidden" name="propertyId" value="${property.getId()}">
                                             <input type="hidden" name="fromViewProperty" value="1">
-                                            <button type="submit" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-Primary">
 							Add An Image 
                                             </button>
+                                        </form><br>
+                                            
+                                        <form method="post" action="DeletePropertyServlet">
+					<div class="btn-group wishlist">
+                                            <input type="hidden" name="propertyId" value="${property.getId()}">
+                                            
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this property')">
+							Delete This Property 
+                                            </button>
                                         </form>
+                                            
+                                            
+                                            
                                             
 					</div>
                                         </c:if>

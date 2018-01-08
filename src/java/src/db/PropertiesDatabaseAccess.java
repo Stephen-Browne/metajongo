@@ -83,6 +83,28 @@ public class PropertiesDatabaseAccess {
             }
 
     }
+    
+    public static boolean updateProperty(Properties propertyToEdit){
+        
+        
+         EntityManager em = dbUtil.getEnf().createEntityManager();
+
+        EntityTransaction trans = em.getTransaction();
+            
+            try{
+                trans.begin();
+                em.merge(propertyToEdit);
+                em.persist(propertyToEdit);
+                trans.commit();
+                em.close();
+                return true;
+               
+            }catch(Exception ex){
+                em.close();
+                return false;
+            }
+
+    }
 
 
 
