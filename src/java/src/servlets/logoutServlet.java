@@ -12,9 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
- 
+import org.apache.shiro.web.session.HttpServletSession;
 
 /**
  *
@@ -33,39 +33,30 @@ public class logoutServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
-        String nextPage;
+         String nextPage;
         
         try{
-            Subject currentUser = SecurityUtils.getSubject();
             
-            if(!currentUser.isAuthenticated()){
-                
-                System.out.println("You're not logged in so can't logout");
-                
-                nextPage = "error.jsp";
-                
-                             
-               
+            SecurityUtils.getSubject().logout();
+            HttpSession session = request.getSession();
+            session.invalidate();
+            nextPage = "homePage.jsp";
+            RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
+            dispatcher.forward(request, response);
+          
                               
             }
-            else{
+            catch(Exception ex){
                 
-                currentUser.logout();
-                nextPage = "index.jsp";
+                nextPage = "error.jsp";
+                RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+                dispatcher.forward(request, response);
                 
-                  RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-                  dispatcher.forward(request, response); 
+               
                 
             }
-            
-            
         
-        }catch(Exception ex){
-            
-            System.out.println(ex.toString());
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

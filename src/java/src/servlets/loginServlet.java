@@ -39,33 +39,36 @@ public class loginServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         try{
-        
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        
-        Subject currentUser =  SecurityUtils.getSubject(); // Almost everything you do in shiro is based on the current executing user -> the subject. This can be retrieved anywhere in your code
+
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+
+            Subject currentUser =  SecurityUtils.getSubject(); // Almost everything you do in shiro is based on the current executing user -> the subject. This can be retrieved anywhere in your code
         
         
         try{
-        currentUser.login(token);
+            currentUser.login(token);
+            
         }catch(Exception ex){
+            
             String nextPage = "login.jsp";
-             RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-               dispatcher.forward(request, response);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+            dispatcher.forward(request, response);
         }
         
         
-        Agents currentAgent = AgentDatabaseAccess.getAgentByUsername(username); // Get all details for this agent 
-        
-        HttpSession session = request.getSession();
-        
-        session.setAttribute("currentAgent", currentAgent); // Add details to the session
-        
-        String nextPage = "/agent/agentHome.jsp";
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+
+            Agents currentAgent = AgentDatabaseAccess.getAgentByUsername(username); // Get all details for this agent 
+            
+            HttpSession session = request.getSession(true); // Create new sessio
+
+            session.setAttribute("currentAgent", currentAgent); // Add details to the session
+
+            String nextPage = "HomePage.jsp";
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
         
         
         

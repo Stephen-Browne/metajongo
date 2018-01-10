@@ -80,10 +80,17 @@
               <input type="reset" class="btn btn-default" value="Cancel">
             </div>
           </div>
-            
+  
         </form>
+ 
       </div>
   </div>
+            
+            
+            <button onclick="location.href='addVendor.jsp'" type="button" class="btn btn-info">Add a Vendor <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span></button>
+            <button onclick="location.href='../PrepareForAddPropertyServlet'" type="button" class="btn btn-info">Add a Property <span class="glyphicon glyphicon-home" aria-hidden="true"></span></button><br><br>
+            <button onclick="location.href='../ViewVendorsServlet'" type="button" class="btn btn-info">View My Vendors <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>
+            
 </div>
 <hr>
 </html>

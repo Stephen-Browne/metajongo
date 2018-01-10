@@ -19,6 +19,7 @@ public class PropertiesDatabaseAccess {
     
     
      public static List<Properties> getAllProperties(){
+       
                
         EntityManager em = dbUtil.getEnf().createEntityManager();
         
@@ -87,14 +88,13 @@ public class PropertiesDatabaseAccess {
     public static boolean updateProperty(Properties propertyToEdit){
         
         
-         EntityManager em = dbUtil.getEnf().createEntityManager();
+        EntityManager em = dbUtil.getEnf().createEntityManager();
 
         EntityTransaction trans = em.getTransaction();
             
             try{
                 trans.begin();
                 em.merge(propertyToEdit);
-                em.persist(propertyToEdit);
                 trans.commit();
                 em.close();
                 return true;

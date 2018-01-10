@@ -5,6 +5,7 @@
  */
 package src.db;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -79,6 +80,38 @@ public class AgentDatabaseAccess {
             finally {
             em.close();
             }
+    }
+    
+    public static List getAllAgents(){
+        
+        EntityManager em = dbUtil.getEnf().createEntityManager();
+        
+        List<Agents> List = null;
+        
+        try{
+            TypedQuery<Agents> tq = em.createNamedQuery("Agents.findAll", Agents.class); // Get list of authors from db
+            List = tq.getResultList();
+
+        }
+        
+        catch(Exception ex){
+            
+            // TODO
+            
+        }
+        
+        
+        finally{
+            em.close();
+        }
+        
+        return List;
+        
+        
+        
+        
+        
+        
     }
     
     

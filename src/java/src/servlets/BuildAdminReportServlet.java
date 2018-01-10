@@ -7,8 +7,6 @@ package src.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,18 +14,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import lombok.val;
-import src.db.VendorDatabaseAccess;
-import src.entities.Agents;
-import src.entities.Vendors;
+import src.db.AgentDatabaseAccess;
 
 /**
  *
  * @author Stephen
  */
-@WebServlet(name = "ViewVendorsServlet", urlPatterns = {"/ViewVendorsServlet"})
-public class ViewVendorsServlet extends HttpServlet {
+@WebServlet(name = "BuildAdminReportServlet", urlPatterns = {"/BuildAdminReportServlet"})
+public class BuildAdminReportServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,40 +36,12 @@ public class ViewVendorsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
-        
-        Agents thisAgent = (Agents)session.getAttribute("currentAgent");
-        
-        Collection<Vendors> vendorsForCurrentAgent = thisAgent.getVendorsCollection();
-        
-        if(vendorsForCurrentAgent.isEmpty()){
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("nothingToDisplay.jsp");
-            
-            dispatcher.forward(request, response);
-
-            
-        }
-        
-        else{
-            
-            request.setAttribute("vendors", vendorsForCurrentAgent);
-               
-            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewVendors.jsp");
-            
-            dispatcher.forward(request, response);
-            
-        }
-        
-        
-        
-        
-        
+         List agentList = AgentDatabaseAccess.getAllAgents();
+         
+         RequestDispatcher dispatcher = request.getRequestDispatcher("AdminReport.jsp");
        
+         
         
-        
-        
-     
         
         
         

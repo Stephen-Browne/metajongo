@@ -53,6 +53,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Properties.findByPrice", query = "SELECT p FROM Properties p WHERE p.price = :price")})
 public class Properties implements Serializable {
 
+    @Column(name = "views")
+    private Integer views;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
@@ -341,6 +344,14 @@ public class Properties implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Integer getViews() {
+        return views;
+    }
+
+    public void setViews(Integer views) {
+        this.views = views;
     }
     
 }

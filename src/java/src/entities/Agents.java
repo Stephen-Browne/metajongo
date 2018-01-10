@@ -196,6 +196,27 @@ public class Agents implements Serializable {
         }
         return true;
     }
+    
+    public int getNumberOfProperties(){
+        
+        return this.propertiesCollection.size();
+        
+    }
+    
+    public double getTotalPropertiesPrice(){
+        
+        double totalPrice = 0;
+        
+        for (Properties p:this.getPropertiesCollection()){
+            
+            totalPrice += p.getPrice();
+       
+        }
+        
+        return totalPrice;
+    }
+    
+    
 
     @Override
     public String toString() {

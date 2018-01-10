@@ -51,7 +51,11 @@ public class ViewPropertyServlet extends HttpServlet {
           
         if(propertyFromDB != null){
             
-            request.setAttribute("property", propertyFromDB );
+            propertyFromDB.setViews(propertyFromDB.getViews() + 1); // Update the view count for this property
+            
+            PropertiesDatabaseAccess.updateProperty(propertyFromDB);
+            
+            request.setAttribute("property", propertyFromDB);
          
             dispatcher.forward(request, response);
             
