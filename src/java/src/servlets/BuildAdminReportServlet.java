@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.val;
 import src.db.AgentDatabaseAccess;
+import src.db.PropertiesDatabaseAccess;
+import src.entities.Properties;
 
 /**
  *
@@ -36,16 +38,35 @@ public class BuildAdminReportServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-         List agentList = AgentDatabaseAccess.getAllAgents();
+            List agentList = AgentDatabaseAccess.getAllAgents();
+
+           List<Properties> propertyList = PropertiesDatabaseAccess.getAllProperties();
+           
+           int totalNumberOfProperties = propertyList.size();
+           
+           List<Properties> OldestProperties = PropertiesDatabaseAccess.getTenOldestRecords();
+
+           double totalPropertyPrice = 0;
+           for(Properties aProperty:propertyList){
+
+               totalPropertyPrice += aProperty.getPrice();
+           }
+           
+           request.setAttribute("totalPropertyPrice", totalPropertyPrice);
+           
+           request.setAttribute("totalNumberOfProperties",totalNumberOfProperties);
+           
+           request.setAttribute("OldestProperties", OldestProperties);
+
+
          
-         RequestDispatcher dispatcher = request.getRequestDispatcher("AdminReport.jsp");
+            request.setAttribute("agentsForReport", agentList);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("AdminReport.jsp");
+
+            dispatcher.forward(request, response);
        
          
-        
-        
-        
-        
-        
         
     }
 

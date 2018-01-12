@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p WHERE p.active = 1"),
+    //@NamedQuery(name = "Properties.findOldest", query = "SELECT p FROM Properties WHERE p.active = 1 ORDER BY p.dateAdded ASC LIMIT 10"), // For admin report
     @NamedQuery(name = "Properties.findById", query = "SELECT p FROM Properties p WHERE p.id = :id"),
     @NamedQuery(name = "Properties.findByStreet", query = "SELECT p FROM Properties p WHERE p.street = :street"),
     @NamedQuery(name = "Properties.findByCity", query = "SELECT p FROM Properties p WHERE p.city = :city"),

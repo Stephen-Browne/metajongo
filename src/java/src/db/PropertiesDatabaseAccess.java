@@ -105,6 +105,45 @@ public class PropertiesDatabaseAccess {
             }
 
     }
+    
+    
+   public static List getTenOldestRecords(){
+       
+       // Getting build error when I try and add this as a named query in properties class
+       String query = "SELECT p FROM Properties WHERE p.active = 1 ORDER BY p.dateAdded ASC LIMIT 10";
+       
+         EntityManager em = dbUtil.getEnf().createEntityManager();
+        
+        List<Properties> List = null;
+        
+        try{
+
+            TypedQuery<Properties> tq = em.createQuery(query, Properties.class); // Get list of authors from db
+            List = tq.getResultList();
+
+        }
+        
+        catch(Exception ex){
+            
+        }
+        
+        
+        finally{
+            em.close();
+        }
+        
+        return List;
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+   }
 
 
 
