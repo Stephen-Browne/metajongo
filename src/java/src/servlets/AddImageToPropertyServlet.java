@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import src.db.ImagesDatabaseAccess;
 import src.db.PropertiesDatabaseAccess;
 import src.entities.Images;
@@ -49,7 +52,10 @@ public class AddImageToPropertyServlet extends HttpServlet {
             Properties property = PropertiesDatabaseAccess.getPropertyWithID(propertyId);
             
             if(property != null){
-                HttpSession session = request.getSession();
+                
+                Subject CurrentUser = SecurityUtils.getSubject();
+                
+                Session session = CurrentUser.getSession();
                 
                 session.setAttribute("propertyForImageUpdate", property); // save the property in session for access once the image is retrieved.
                 

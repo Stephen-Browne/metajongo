@@ -25,29 +25,33 @@
            <c:forEach items="${agentsForReport}" var="agent">
                <p>Agent Name: ${agent.getName()}<br>Total Properties: ${agent.getNumberOfProperties()}</p>
                
+               <c:if test="${agent.getNumberOfProperties() > 0}">
                
-               <table class="table">
-                   <thead>
-                       <tr>
-                            <th>Property Name</th>
-                            <th>Price</th>
-                            <th>Views</th>
-                       </tr>
-                   </thead>
-                   
-                   <tbody>
-                            <c:forEach items="${agent.getPropertiesCollection()}" var="property">
-                                <tr>
-                                    <td>${property.getShortDescription()}</td>
-                                    <td>${property.getPrice()}</td>
-                                    <td>${property.getViews()}</td>
-                                </tr>
-                            </c:forEach>
-                                <tr>
-                                    <td><strong>Total Price:</strong> ${agent.getTotalPropertiesPrice()}</td>
-                                </tr>
-                   </tbody>
-               </table>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                 <th>Property Name</th>
+                                 <th>Price</th>
+                                 <th>Views</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                                 <c:forEach items="${agent.getPropertiesCollection()}" var="property">
+                                     <tr>
+                                         <td>${property.getShortDescription()}</td>
+                                         <td>${property.getPrice()}</td>
+                                         <td>${property.getViews()}</td>
+                                     </tr>
+                                 </c:forEach>
+                                     <tr>
+                                         <td><strong>Total Price:</strong> ${agent.getTotalPropertiesPrice()}</td>
+                                     </tr>
+                        </tbody>
+                    </table>
+                                
+                </c:if>
+               
            </c:forEach>
                
                <p>

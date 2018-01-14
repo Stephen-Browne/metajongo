@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import src.db.AgentDatabaseAccess;
 import src.entities.Agents;
 
@@ -92,7 +95,10 @@ public class UploadAgentImageServlet extends HttpServlet {
     
     
     public void CommitAgentsImage(HttpServletRequest request, HttpServletResponse response, String fileName) throws ServletException{    
-        HttpSession session = request.getSession();
+        
+        Subject currentUser = SecurityUtils.getSubject();
+       
+        Session session = currentUser.getSession();
 
         Agents AgentToUpdate = (Agents)session.getAttribute("currentAgent");
 

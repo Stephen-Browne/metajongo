@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import src.db.GarageTypesDatabaseAccess;
 import src.db.PropertiesDatabaseAccess;
 import src.db.PropertyTypesDatabaseAccess;
@@ -83,8 +86,10 @@ public class AddPropertyServlet extends HttpServlet {
         Short garageSize = Short.parseShort(request.getParameter("garagesize"));
         Date currentDate = new Date();
         int listNumber = ThreadLocalRandom.current().nextInt(10000,1000000); // Generate random listing number
+        
+        Subject CurrentUser = SecurityUtils.getSubject();
        
-        HttpSession session = request.getSession();
+        Session session = CurrentUser.getSession();
         Agents thisAgent = (Agents)session.getAttribute("currentAgent");
         
         

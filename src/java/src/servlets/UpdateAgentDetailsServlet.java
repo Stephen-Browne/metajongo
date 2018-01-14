@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import src.db.AgentDatabaseAccess;
 import src.entities.Agents;
 
@@ -35,7 +38,9 @@ public class UpdateAgentDetailsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession();
+        Subject currentUser = SecurityUtils.getSubject();
+
+        Session session = currentUser.getSession();
 
         // Get details posted from form
         String newName = request.getParameter("name"); 

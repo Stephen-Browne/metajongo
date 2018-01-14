@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import src.db.AgentDatabaseAccess;
 import src.entities.Agents;
@@ -58,22 +59,25 @@ public class loginServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }
         
+            
+        if(currentUser.isAuthenticated()){
         
-
             Agents currentAgent = AgentDatabaseAccess.getAgentByUsername(username); // Get all details for this agent 
             
-            HttpSession session = request.getSession(true); // Create new sessio
+            Session session = currentUser.getSession();
 
             session.setAttribute("currentAgent", currentAgent); // Add details to the session
 
             String nextPage = "HomePage.jsp";
 
             RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+            
+            dispatcher.forward(request, response);
+        
+        }
         
         
         
-        
-        dispatcher.forward(request, response);
         
         
         }catch (Exception ex){

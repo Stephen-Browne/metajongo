@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -20,6 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import src.db.ImagesDatabaseAccess;
 import src.entities.Images;
 import src.entities.Properties;
@@ -51,16 +55,19 @@ public class InsertNewImageForPropertyServlet extends HttpServlet {
             
         fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
        
+        Subject CurrentUser = SecurityUtils.getSubject();
         
-        HttpSession session = request.getSession();
+        Session session = CurrentUser.getSession();
         
         Properties propertyToAddImageFor = (Properties)session.getAttribute("propertyForImageUpdate");
         
         boolean wasInserted = false;
         
+        Images newImage = new Images();
+        
         if(fileName != null){
             
-            Images newImage = new Images();
+            newImage = new Images();
             
             newImage.setImageName(fileName);
             
@@ -71,6 +78,12 @@ public class InsertNewImageForPropertyServlet extends HttpServlet {
         }
         
         if(wasInserted){
+            
+            Collection<Images> currentlistForProperty = propertyToAddImageFor.getImagesCollection();
+            
+            currentlistForProperty.add(newImage);
+            
+            propertyToAddImageFor.setImagesCollection(currentlistForProperty); // link the new image to the property entity
             
             InputStream fileContent = filePart.getInputStream();               
 

@@ -15,7 +15,7 @@
     </head>
     <body>
         <h2>Action Completed Successfully</h2>
-        <a href="agent/agentHome.jsp">Go Home</a>
+        <a href="HomePage.jsp">Go Home</a>
     </body>
     </div>
 </html>

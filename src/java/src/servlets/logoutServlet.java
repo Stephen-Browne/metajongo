@@ -39,8 +39,6 @@ public class logoutServlet extends HttpServlet {
         try{
             
             SecurityUtils.getSubject().logout();
-            HttpSession session = request.getSession();
-            session.invalidate();
             nextPage = "homePage.jsp";
             RequestDispatcher dispatcher = request.getRequestDispatcher("HomePage.jsp");
             dispatcher.forward(request, response);

@@ -5,6 +5,7 @@
  */
 package src.servlets;
 
+import HelperClasses.CompareAgentsByNumberOfProperties;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -52,23 +53,25 @@ public class BuildAdminReportServlet extends HttpServlet {
                totalPropertyPrice += aProperty.getPrice();
            }
            
-           request.setAttribute("totalPropertyPrice", totalPropertyPrice);
+            request.setAttribute("totalPropertyPrice", totalPropertyPrice);
            
-           request.setAttribute("totalNumberOfProperties",totalNumberOfProperties);
+            request.setAttribute("totalNumberOfProperties",totalNumberOfProperties);
            
-           request.setAttribute("OldestProperties", OldestProperties);
+            request.setAttribute("OldestProperties", OldestProperties);
+           
+            CompareAgentsByNumberOfProperties compareUsingThis = new CompareAgentsByNumberOfProperties();
+           
+            agentList.sort(compareUsingThis); //  Pass the comparison object to sort the list by the number of properties each agent has
 
-
-         
             request.setAttribute("agentsForReport", agentList);
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("AdminReport.jsp");
 
             dispatcher.forward(request, response);
        
-         
-        
     }
+    
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -110,3 +113,5 @@ public class BuildAdminReportServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
+

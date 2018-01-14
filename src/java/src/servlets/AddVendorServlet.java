@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import src.db.VendorDatabaseAccess;
 import src.entities.Agents;
 import src.entities.Vendors;
@@ -36,8 +39,9 @@ public class AddVendorServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        Subject currentUser = SecurityUtils.getSubject();
         
-         HttpSession session = request.getSession();
+        Session session = currentUser.getSession();
 
         String vendorName = request.getParameter("vendorName"); // TODO: come back and do null checking here and send to error page
         
