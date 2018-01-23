@@ -17,12 +17,15 @@
         <shiro:guest> 
 
 
+        
         <h2>Login</h2>
+        <h3 style="font-weight: bold">Note: logging in is for staff only</h3>
         <c:if test="${shiroLoginFailure != null}">
             
             Username or password is incorrect
             
         </c:if>
+            
             
         <form name="loginform" method="post" action="loginServlet">
 

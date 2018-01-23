@@ -5,29 +5,23 @@
  */
 package src.servlets;
 
+import com.sun.xml.rpc.processor.modeler.j2ee.xml.string;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.realm.jdbc.JdbcRealm;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import src.db.AgentDatabaseAccess;
-import src.entities.Agents;
-import sun.security.krb5.Realm;
 
 /**
  *
  * @author Stephen
  */
-public class loginServlet extends HttpServlet {
+@WebServlet(name = "AddToFavouritesServlet", urlPatterns = {"/AddToFavouritesServlet"})
+public class AddToFavouritesServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,58 +34,39 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
-        try{
-    
-            String username = request.getParameter("username");
-            
-            String password = request.getParameter("password");
+        int propertyForFavourite = Integer.parseInt(request.getParameter("propertyId"));
+        
+        Cookie[] cookies = request.getCookies();
+        
+        // Separate cookie for each favourite
+        
+        
+        for(Cookie c:cookies){
 
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-
-            Subject currentUser =  SecurityUtils.getSubject(); // Almost everything you do in shiro is based on the current executing user -> the subject. This can be retrieved anywhere in your code
-        
-        
-        try{
-            currentUser.login(token);
+            if(c.getValue() == Integer.toString(propertyForFavourite)){
             
-        }catch(Exception ex){
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ViewPropertyServlet");
+                
+                dispatcher.forward(request, response);
+                
+            }
             
-            String nextPage = "login.jsp";
-            RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-            dispatcher.forward(request, response);
         }
-        
+       
             
-        if(currentUser.isAuthenticated()){
-        
-            Agents currentAgent = AgentDatabaseAccess.getAgentByUsername(username); // Get all details for this agent 
+            Cookie myFavouritesCookie = new Cookie("aFavouriteProperty_" + Integer.toString(propertyForFavourite), Integer.toString(propertyForFavourite));
+                      
+            response.addCookie(myFavouritesCookie);
             
-            Session session = currentUser.getSession();
-
-            session.setAttribute("currentAgent", currentAgent); // Add details to the session
-
-            String nextPage = "HomePage.jsp";
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
+            request.setAttribute("propertyid", propertyForFavourite);
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewPropertyServlet");
             
             dispatcher.forward(request, response);
+       
         
-        }
-        
-        
-        
-        
-        
-        }catch (Exception ex){
-            System.out.println(ex.toString());
-            
-        }
-        
-      
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

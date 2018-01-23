@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,9 +49,19 @@ public class ViewPropertyServlet extends HttpServlet {
         propertyFromDB = PropertiesDatabaseAccess.getPropertyWithID(propertyid);
         
         Collection<Images> images = propertyFromDB.getImagesCollection();
+        
           
         if(propertyFromDB != null){
             
+            if(isAlreadyInFavourites(request, id)){
+                
+                request.setAttribute("showFavouriteButton", false);
+                
+            }else{
+                
+                request.setAttribute("showFavouriteButton", true);
+            }
+       
             propertyFromDB.setViews(propertyFromDB.getViews() + 1); // Update the view count for this property
             
             PropertiesDatabaseAccess.updateProperty(propertyFromDB);
@@ -107,5 +118,35 @@ public class ViewPropertyServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    public boolean isAlreadyInFavourites(HttpServletRequest request, String propertyId){
+        
+           Cookie[] cookies = request.getCookies();
+        
+        // Separate cookie for each favourite
+        
+        String valueToCheck = "favouriteProperty_" + propertyId; 
+        
+        
+        for(Cookie c:cookies){
+            
+            if(c.getName().contains("aFavouriteProperty_")){
+
+
+                    if(c.getValue().equals(propertyId) ){
+
+                       return true;
+
+                    }
+            
+            }
+            
+        }
+        
+        return false;
+        
+        
+        
+    }
 
 }

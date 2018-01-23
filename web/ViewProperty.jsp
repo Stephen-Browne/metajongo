@@ -30,14 +30,7 @@
                                      </c:forEach>
                                         <button class="w3-button w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
                                         <button class="w3-button w3-display-right" onclick="plusDivs(+1)">&#10095;</button>
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-					
-					
+                  
 				</div>
                             
                             
@@ -96,6 +89,46 @@
                                             
 					</div>
                                         </c:if>
+                                            
+                                            <shiro:guest>
+                                                
+                                                <c:if test="${showFavouriteButton == true}">   
+                                               
+                                                    
+                                        <form method="post" action="AddToFavouritesServlet">
+					<div class="btn-group wishlist">
+                                            <input type="hidden" name="propertyId" value="${property.getId()}">
+                                            <input type="hidden" name="fromViewProperty" value="1">
+                                            <button type="submit" class="btn btn-Primary">
+							Add to Favourites 
+                                            </button>
+                                        </form><br>
+                                        
+                                                </c:if>
+                                        
+                                        
+                                        
+                                            <c:if test="${showFavouriteButton == false}">   
+
+                                        
+                                        <form method="post" action="DeleteFromFavouritesServlet">
+					<div class="btn-btn-danger">
+                                            <input type="hidden" name="propertyidtoremove" value="${property.getId()}">
+                                            <input type="hidden" name="fromViewProperty" value="1">
+                                            <button type="submit" class="btn btn-Primary">
+							Remove From Favourites 
+                                            </button>
+                                        </form><br>
+                                        
+                                            </c:if>
+                                        
+                                        
+                                        
+                                        
+                                                
+                                                
+                                            </shiro:guest>       
+
                                         <!-- End Hiding -->
                                         
                                         

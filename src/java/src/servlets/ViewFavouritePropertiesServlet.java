@@ -7,27 +7,22 @@ package src.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.realm.jdbc.JdbcRealm;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
-import src.db.AgentDatabaseAccess;
-import src.entities.Agents;
-import sun.security.krb5.Realm;
+import src.db.PropertiesDatabaseAccess;
+import src.entities.Properties;
 
 /**
  *
  * @author Stephen
  */
-public class loginServlet extends HttpServlet {
+public class ViewFavouritePropertiesServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,56 +35,41 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        try{
-    
-            String username = request.getParameter("username");
-            
-            String password = request.getParameter("password");
-
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-
-            Subject currentUser =  SecurityUtils.getSubject(); // Almost everything you do in shiro is based on the current executing user -> the subject. This can be retrieved anywhere in your code
         
         
-        try{
-            currentUser.login(token);
+        
+        Cookie[] cookies = request.getCookies();
+        
+        // Separate cookie for each favourite 
+        
+        List<Properties> favouritesToDisplay = new ArrayList<>();
+        
+        for(Cookie c:cookies){
             
-        }catch(Exception ex){
+            if(c.getName().contains("aFavouriteProperty_")){
             
-            String nextPage = "login.jsp";
-            RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-            dispatcher.forward(request, response);
+            String propertyId = c.getValue();
+            
+            int propertyIdAsInt = Integer.parseInt(propertyId);
+            
+            Properties thisProperty = PropertiesDatabaseAccess.getPropertyWithID(propertyIdAsInt);
+            
+            favouritesToDisplay.add(thisProperty);
         }
-        
-            
-        if(currentUser.isAuthenticated()){
-        
-            Agents currentAgent = AgentDatabaseAccess.getAgentByUsername(username); // Get all details for this agent 
-            
-            Session session = currentUser.getSession();
-
-            session.setAttribute("currentAgent", currentAgent); // Add details to the session
-
-            String nextPage = "HomePage.jsp";
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(nextPage);
-            
-            dispatcher.forward(request, response);
-        
-        }
-        
-        
-        
-        
-        
-        }catch (Exception ex){
-            System.out.println(ex.toString());
+            else{
+                continue;
+            }
             
         }
         
-      
+        request.setAttribute("PropertyList", favouritesToDisplay);
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewProperties.jsp"); // Reuse the same jsp as is used for searching
+        
+        dispatcher.forward(request, response);
+        
+
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -41,6 +41,7 @@ public class PropertiesDatabaseAccess {
         }
         
         return List;
+        
     }
      
     
@@ -107,10 +108,10 @@ public class PropertiesDatabaseAccess {
     }
     
     
-   public static List getTenOldestRecords(){
-       
+   public static List getTenOldestRecords(){       
        // Getting build error when I try and add this as a named query in properties class
-       String query = "SELECT p FROM Properties WHERE p.active = 1 ORDER BY p.dateAdded ASC LIMIT 10";
+       String query = "SELECT p FROM Properties p WHERE p.active = 1 ORDER BY p.dateAdded ASC";
+       
        
          EntityManager em = dbUtil.getEnf().createEntityManager();
         
@@ -119,11 +120,14 @@ public class PropertiesDatabaseAccess {
         try{
 
             TypedQuery<Properties> tq = em.createQuery(query, Properties.class); // Get list of authors from db
+            tq.setMaxResults(10);  // this is used instead of the 'LIMIT 10' within the sql query
             List = tq.getResultList();
 
         }
         
         catch(Exception ex){
+            
+            System.out.println(ex.toString());
             
         }
         
@@ -133,15 +137,6 @@ public class PropertiesDatabaseAccess {
         }
         
         return List;
-       
-       
-       
-       
-       
-       
-       
-       
-       
        
    }
 
