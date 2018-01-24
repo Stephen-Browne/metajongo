@@ -1,6 +1,6 @@
 <%-- 
-    Document   : SearchProperties
-    Created on : 22-Jan-2018, 16:23:36
+    Document   : ViewRecentProperties
+    Created on : 24-Jan-2018, 20:27:15
     Author     : Stephen
 --%>
 
@@ -23,7 +23,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Search Properties</title>
+        <title>Recent Properties</title>
     </head>
     
     <div class="container-fluid">
@@ -74,7 +74,7 @@
         
               
         <tbody>
-            <c:forEach items="${allproperties}" var="property">
+            <c:forEach items="${recentProperties}" var="property">
                 <tr> 
                     <td><a href=""> <img src="./imageResources/${property.getPhoto()}" class="img-responsive" style="width:350px;height:200px;" alt="Product Image" /> </a></td> 
                     

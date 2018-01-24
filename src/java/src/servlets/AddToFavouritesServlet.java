@@ -56,12 +56,14 @@ public class AddToFavouritesServlet extends HttpServlet {
        
             
             Cookie myFavouritesCookie = new Cookie("aFavouriteProperty_" + Integer.toString(propertyForFavourite), Integer.toString(propertyForFavourite));
-                      
+            
+            myFavouritesCookie.setMaxAge(60 * 24 * 3600);  // Don't want this cookie to expire so set to some date far in the future...
+         
             response.addCookie(myFavouritesCookie);
             
             request.setAttribute("propertyid", propertyForFavourite);
             
-            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewPropertyServlet");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("success.jsp");
             
             dispatcher.forward(request, response);
        

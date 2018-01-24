@@ -208,7 +208,15 @@ public class Properties implements Serializable {
     
     public String getShortDescription(){
         
+        if(this.description.length() > 140){
+            
         return this.description.substring(0, 140) + "..."; // Get a shorter Description for the search results.
+        
+        }
+        
+        else{
+            return this.description;
+        }
     }
 
 

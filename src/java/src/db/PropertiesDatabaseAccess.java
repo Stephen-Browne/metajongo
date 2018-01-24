@@ -5,7 +5,16 @@
  */
 package src.db;
 
+import HelperClasses.DateHelper;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -65,6 +74,9 @@ public class PropertiesDatabaseAccess {
     
     
     public static boolean insertProperty(Properties thisproperty){
+        
+        thisproperty.setActive(true);
+        thisproperty.setViews(0);
         
         EntityManager em = dbUtil.getEnf().createEntityManager();
 
@@ -139,10 +151,45 @@ public class PropertiesDatabaseAccess {
         return List;
        
    }
+   
+   
+   public static List<Properties> getPropertiesFromLastSevenDays(){
+      
+       List<Properties> allProperties = getAllProperties();
+       
+       List<Properties> RecentProperties = new ArrayList<>();
+      
+       Calendar cal = Calendar.getInstance();
+       
+       long daysBetween;
+       
+       Calendar datePropertyAdded;
+       
+       for(Properties p : allProperties){
+           
+                 datePropertyAdded = DateHelper.toCalendar(p.getDateAdded());
+
+                 daysBetween = ChronoUnit.DAYS.between(cal.toInstant(), datePropertyAdded.toInstant());
+            
+                if(daysBetween <= 7){
+
+
+                    RecentProperties.add(p);
+
+                }
+                
+            }
+       
+       return RecentProperties;
+  
+       }
+   
+   }
+
 
 
 
 
     
     
-}
+

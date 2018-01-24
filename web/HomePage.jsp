@@ -23,12 +23,18 @@
     <a href="#home" class="w3-bar-item w3-button"><b>LIT</b> Realty</a>
     <!-- Float links to the right. Hide them on small screens -->
     <div class="w3-right w3-hide-small">
+        
       <a href="#projects" class="w3-bar-item w3-button">Projects</a>
-      <a href="SearchPropertiesServlet" class="w3-bar-item w3-button">Search Our Properties</a>
       
-      <shiro:guest> <!--Only those not logged in will see this-->
-            <a href="login.jsp" class="w3-bar-item w3-button">Login</a>
-      </shiro:guest>
+    <a href="ViewRecentPropertiesServlet" class="w3-bar-item w3-button">View Recent Properties</a>
+    <a href="SearchPropertiesServlet" class="w3-bar-item w3-button">Search Our Properties</a>
+      
+      
+      
+      
+      
+      
+      
             
             
       <!-- Change this when i figure out roles in shiro -->
@@ -49,6 +55,10 @@
                 <a href="ViewFavouritePropertiesServlet" class="w3-bar-item w3-button">View Favourite Properties</a>
          
             </shiro:guest>
+                
+                <shiro:guest> <!--Only those not logged in will see this-->
+            <a href="login.jsp" class="w3-bar-item w3-button">Login</a>
+      </shiro:guest>
             
             
       

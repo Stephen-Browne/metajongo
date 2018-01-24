@@ -47,7 +47,7 @@ public class DeleteFromFavouritesServlet extends HttpServlet {
             
             if(c.getName().contains("aFavouriteProperty_")){
                 
-                if(c.getValue() == propertyIdToRemoveFromFavourites){
+                if(c.getValue().equals(propertyIdToRemoveFromFavourites)){
                     
                     /*
                     The MaxAge of -1 signals that you want the cookie to persist for the duration of the session. You want to set MaxAge to 0 instead
@@ -57,6 +57,7 @@ public class DeleteFromFavouritesServlet extends HttpServlet {
                     */
                     
                     c.setMaxAge(0);
+                    response.addCookie(c);
                     break;
                     
                 }
@@ -68,7 +69,8 @@ public class DeleteFromFavouritesServlet extends HttpServlet {
             
         }
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("success.jsp");
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewFavouritePropertiesServlet");
         
         dispatcher.forward(request, response);
 

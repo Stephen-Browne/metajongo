@@ -50,6 +50,7 @@ public class AddVendorServlet extends HttpServlet {
         Agents loggedInAgent = (Agents)session.getAttribute("currentAgent");
         
                 
+        
         v.setAgentsagentId(loggedInAgent);
         v.setName(vendorName);
    
@@ -57,6 +58,10 @@ public class AddVendorServlet extends HttpServlet {
         String nextPage = "error.jsp";
      
         boolean operationSuccessful = VendorDatabaseAccess.addVendor(v); // Add this vendor to the Database
+        
+        loggedInAgent.getVendorsCollection().add(v);
+        
+        session.setAttribute("currentAgent", loggedInAgent);
         
         if(operationSuccessful){
             nextPage = "success.jsp";

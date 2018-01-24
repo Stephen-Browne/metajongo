@@ -46,7 +46,7 @@ public class ViewFavouritePropertiesServlet extends HttpServlet {
         
         for(Cookie c:cookies){
             
-            if(c.getName().contains("aFavouriteProperty_")){
+            if(c.getName().contains("aFavouriteProperty_") && c.getMaxAge() != 0){
             
             String propertyId = c.getValue();
             
@@ -62,12 +62,24 @@ public class ViewFavouritePropertiesServlet extends HttpServlet {
             
         }
         
+        if(favouritesToDisplay.isEmpty()){ // User has no favourites
+           
+        
+            RequestDispatcher dispatcher = request.getRequestDispatcher("NoFavourites.jsp"); // Reuse the same jsp as is used for searching
+        
+            dispatcher.forward(request, response);
+            
+            
+            
+        }
+        
+        else{ // User has some favourites
         request.setAttribute("PropertyList", favouritesToDisplay);
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("ViewProperties.jsp"); // Reuse the same jsp as is used for searching
         
         dispatcher.forward(request, response);
-        
+        }
 
         
     }

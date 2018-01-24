@@ -1,6 +1,6 @@
 <%-- 
-    Document   : nothingToDisplay
-    Created on : 10-Jan-2018, 17:56:28
+    Document   : NoFavourites
+    Created on : 24-Jan-2018, 14:36:14
     Author     : Stephen
 --%>
 
@@ -9,9 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Nothing To Display</title>
+        <title>No Favorites</title>
     </head>
     <body>
-        <p>No results were returned for that query.</p>
+        <h2>You don't currently have any favourite properties</h2><br>
+        <a href="HomePage.jsp">Go Home</a>
     </body>
 </html>

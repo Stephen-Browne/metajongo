@@ -18,7 +18,7 @@
 
     <div class="container">
 
-<form class="form-signin" method="post" action="AddPropertyServlet">
+        <form class="form-signin" method="post" action="AddPropertyServlet">
 <h2 class="form-signin-heading">Add a Property</h2>
         
     <select required class="form-control" id="County" name="county">
@@ -133,12 +133,9 @@
    <textarea class="form-control" rows="3" placeholder="Enter a Description for the property, be as informative as possible" id="description" name="description"></textarea><br>
 
 
-    <!-- Choose an Image, more can be added later after the property has been inserted -->
-    <label class="btn btn-primary btn-file">
-        Choose an Image <input type="file" style="display: none;" name="propertyimage">
-    </label><br><br><br>
+   
     
-    
+   You'l now be asked to add a thumbnail. You can add additional images later.<br>
     <button class="btn btn-primary" type="submit">Add Property</button><br>
     <img src="./imageResources//homeLogo.png" alt="logo" style="width:150px;height:150px" id="formlogo">
     

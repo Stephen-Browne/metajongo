@@ -78,12 +78,8 @@ public class InsertNewImageForPropertyServlet extends HttpServlet {
         }
         
         if(wasInserted){
-            
-            Collection<Images> currentlistForProperty = propertyToAddImageFor.getImagesCollection();
-            
-            currentlistForProperty.add(newImage);
-            
-            propertyToAddImageFor.setImagesCollection(currentlistForProperty); // link the new image to the property entity
+              
+            propertyToAddImageFor.getImagesCollection().add(newImage);  
             
             InputStream fileContent = filePart.getInputStream();               
 

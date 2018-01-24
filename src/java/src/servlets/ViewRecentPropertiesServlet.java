@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +20,7 @@ import src.entities.Properties;
  *
  * @author Stephen
  */
-@WebServlet(name = "ViewPropertiesServlet", urlPatterns = {"/ViewPropertiesServlet"})
-public class ViewPropertiesServlet extends HttpServlet {
+public class ViewRecentPropertiesServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,17 +33,41 @@ public class ViewPropertiesServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-                
-        List<Properties> List = PropertiesDatabaseAccess.getAllProperties();
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ViewProperties.jsp");
+        List<Properties> recentProperties = PropertiesDatabaseAccess.getPropertiesFromLastSevenDays();
         
-        request.setAttribute("PropertyList", List);
-                     
-        dispatcher.forward(request, response);
+        if(recentProperties.size() == 0){
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("NoRecents.jsp");
+            
+            dispatcher.forward(request, response);
+            
+        }
         
-   
+        else{
+            
+            request.setAttribute("recentProperties", recentProperties);
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ViewRecentProperties.jsp");
+            
+            dispatcher.forward(request, response);
+            
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
